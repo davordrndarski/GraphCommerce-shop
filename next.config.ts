@@ -2,24 +2,28 @@ import { withGraphCommerce } from '@graphcommerce/next-config'
 import withSerwistInit from '@serwist/next'
 import dotenv from 'dotenv'
 import type { NextConfig } from 'next'
+
 dotenv.config({ quiet: true })
+
 const withPWA = withSerwistInit({
   disable: process.env.NODE_ENV === 'development',
   swSrc: 'lib/sw.ts',
   swDest: 'public/sw.js',
   exclude: [/sitemap/, /robots/, 'sw.js', /\.(js|css)\.map$/, /\.well-known\//],
 })
+
 const nextConfig: NextConfig = {
   onDemandEntries: {
     maxInactiveAge: 1000 * 60 * 10,
     pagesBufferLength: 10,
   },
-  images: {
-    unoptimized: true,
-    remotePatterns: [
-      { hostname: 'holidays-viruses-passage-cfr.trycloudflare.com', protocol: 'https' }
-    ],
-  },
+images: {
+  remotePatterns: [
+    { hostname: 'www.crafter.rs', protocol: 'https' },
+    { hostname: 'crafter.rs', protocol: 'https' },
+  ],
+},
   reactCompiler: true,
 }
+
 export default withGraphCommerce(withPWA(nextConfig))
