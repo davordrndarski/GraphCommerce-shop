@@ -1,0 +1,26 @@
+query HomepageProducts {
+  products(
+    pageSize: 8
+    currentPage: 1
+    sort: { position: ASC }
+  ) {
+    items {
+      uid
+      sku
+      name
+      url_key
+      small_image {
+        url
+      }
+      price_range {
+        minimum_price {
+          final_price {
+            value
+            currency
+          }
+        }
+      }
+    }
+    total_count
+  }
+}

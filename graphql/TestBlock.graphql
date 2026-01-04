@@ -1,0 +1,9 @@
+query TestBlock {
+  cmsBlocks(identifiers: "test_blok") {
+    items {
+      identifier
+      title
+      content
+    }
+  }
+}
