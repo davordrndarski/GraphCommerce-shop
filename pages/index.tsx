@@ -10,20 +10,21 @@ import { t } from '@lingui/core/macro'
 import type { LayoutNavigationProps } from '../components'
 import { LayoutDocument, LayoutNavigation, productListRenderer } from '../components'
 import { graphqlSharedClient, graphqlSsrClient } from '../lib/graphql/graphqlSsrClient'
-import { TestBlockDocument } from '../graphql/TestBlock.gql'
+// import { TestBlockDocument } from '../graphql/TestBlock.gql'
 import { ProductListDocument, ProductListItem } from '@graphcommerce/magento-product'
 import { Typography } from '@mui/material'
 
 export type CmsPageProps = { 
   cmsPage: CmsPageFragment | null
-  testBlock?: { identifier: string; title: string; content: string } | null
+  // testBlock?: { identifier: string; title: string; content: string } | null
   products?: any
 }
 
 type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, CmsPageProps>
 
 function HomePage(props: CmsPageProps) {
-  const { cmsPage, testBlock, products } = props
+  // const { cmsPage, testBlock, products } = props
+  const { cmsPage, products } = props
   
   console.log('=== HOMEPAGE DEBUG ===');
   console.log('products:', products);
@@ -41,11 +42,11 @@ function HomePage(props: CmsPageProps) {
       />
       <LayoutHeader floatingMd hideMd={breadcrumbs} floatingSm />
       
-      {testBlock && (
+      {/*{testBlock && (
         <Container sx={{ my: 4 }}>
           <div dangerouslySetInnerHTML={{ __html: testBlock.content }} />
         </Container>
-      )}
+      )}*/}
 
       {products?.items && products.items.length > 0 && (
         <Container sx={{ my: 4 }}>
@@ -77,7 +78,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const url = confData?.storeConfig?.cms_home_page ?? 'home'
   
   const cmsPageQuery = staticClient.query({ query: CmsPageDocument, variables: { url } })
-  const testBlockQuery = staticClient.query({ query: TestBlockDocument })
+  // const testBlockQuery = staticClient.query({ query: TestBlockDocument })
   const productsQuery = staticClient.query({ 
     query: ProductListDocument,
     variables: { 
@@ -92,7 +93,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   })
   
   const cmsPage = (await cmsPageQuery).data?.route
-  const testBlockData = (await testBlockQuery).data
+  // const testBlockData = (await testBlockQuery).data
   const productsData = (await productsQuery).data
   
   console.log('=== GETSTATICPROPS DEBUG ===');
@@ -103,7 +104,7 @@ export const getStaticProps: GetPageStaticProps = async (context) => {
   const result = {
     props: {
       cmsPage: cmsPage && isTypename(cmsPage, ['CmsPage']) ? cmsPage : null,
-      testBlock: testBlockData?.cmsBlocks?.items?.[0] || null,
+      // testBlock: testBlockData?.cmsBlocks?.items?.[0] || null,
       products: productsData?.products || null,
       ...(await layout).data,
       apolloState: await conf.then(() => client.cache.extract()),
